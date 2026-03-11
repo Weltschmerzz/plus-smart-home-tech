@@ -9,6 +9,8 @@ import ru.yandex.practicum.collector.serialization.AvroSerializer;
 import ru.yandex.practicum.kafka.telemetry.event.HubEventAvro;
 import ru.yandex.practicum.kafka.telemetry.event.SensorEventAvro;
 
+import java.util.concurrent.ExecutionException;
+
 @Component
 public class CollectorKafkaProducer {
 
@@ -33,38 +35,40 @@ public class CollectorKafkaProducer {
         byte[] payload = avroSerializer.serialize(event);
         String key = event.getHubId().toString();
 
-        kafkaTemplate.send(sensorsTopic, key, payload)
-                .whenComplete((result, ex) -> {
-                    if (ex != null) {
-                        log.error("Ошибка отправки события датчика в Kafka: topic={}, key={}, sensorId={}",
-                                sensorsTopic, key, event.getId(), ex);
-                    } else {
-                        log.info("Событие датчика отправлено в Kafka: topic={}, key={}, sensorId={}, partition={}, offset={}",
-                                sensorsTopic,
-                                key,
-                                event.getId(),
-                                result.getRecordMetadata().partition(),
-                                result.getRecordMetadata().offset());
-                    }
-                });
+        try {
+            var result = kafkaTemplate.send(sensorsTopic, key, payload).get();
+
+            log.info("Событие датчика отправлено в Kafka: topic={}, key={}, sensorId={}, partition={}, offset={}",
+                    sensorsTopic,
+                    key,
+                    event.getId(),
+                    result.getRecordMetadata().partition(),
+                    result.getRecordMetadata().offset());
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new IllegalStateException("Поток был прерван при отправке события датчика в Kafka", e);
+        } catch (ExecutionException e) {
+            throw new IllegalStateException("Не удалось отправить событие датчика в Kafka", e);
+        }
     }
 
     public void sendHubEvent(HubEventAvro event) {
         byte[] payload = avroSerializer.serialize(event);
         String key = event.getHubId().toString();
 
-        kafkaTemplate.send(hubsTopic, key, payload)
-                .whenComplete((result, ex) -> {
-                    if (ex != null) {
-                        log.error("Ошибка отправки события хаба в Kafka: topic={}, key={}",
-                                hubsTopic, key, ex);
-                    } else {
-                        log.info("Событие хаба отправлено в Kafka: topic={}, key={}, partition={}, offset={}",
-                                hubsTopic,
-                                key,
-                                result.getRecordMetadata().partition(),
-                                result.getRecordMetadata().offset());
-                    }
-                });
+        try {
+            var result = kafkaTemplate.send(hubsTopic, key, payload).get();
+
+            log.info("Событие хаба отправлено в Kafka: topic={}, key={}, partition={}, offset={}",
+                    hubsTopic,
+                    key,
+                    result.getRecordMetadata().partition(),
+                    result.getRecordMetadata().offset());
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new IllegalStateException("Поток был прерван при отправке события хаба в Kafka", e);
+        } catch (ExecutionException e) {
+            throw new IllegalStateException("Не удалось отправить событие хаба в Kafka", e);
+        }
     }
 }
