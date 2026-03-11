@@ -9,7 +9,7 @@ public class DeviceRemovedEvent extends HubEvent {
 
     @Override
     public HubEventType getType() {
-        return HubEventType.DEVICE_REMOVED_EVENT;
+        return HubEventType.DEVICE_REMOVED;
     }
 
     public String getId() {
