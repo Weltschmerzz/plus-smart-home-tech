@@ -35,8 +35,8 @@ message SwitchSensorProto {
 
 message SensorEventProto {
   string id = 1;
-  string hub_id = 2;
-  google.protobuf.Timestamp timestamp = 3;
+  google.protobuf.Timestamp timestamp = 2;
+  string hubId = 3;
 
   oneof payload {
     MotionSensorProto motion_sensor = 4;

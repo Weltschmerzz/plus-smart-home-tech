@@ -1,14 +1,17 @@
 spring:
   application:
     name: collector
+  main:
+    web-application-type: none
   kafka:
     bootstrap-servers: localhost:9092
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.ByteArraySerializer
 
-server:
-  port: 8080
+grpc:
+  server:
+    port: 59091
 
 collector:
   kafka:
