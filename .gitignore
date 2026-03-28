@@ -1,0 +1,17 @@
+# Maven / build
+target/
+out/
+build/
+
+# Java binaries
+*.class
+*.jar
+*.war
+*.ear
+
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# macOS
+.DS_Store
