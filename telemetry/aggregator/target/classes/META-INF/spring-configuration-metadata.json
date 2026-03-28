@@ -1,0 +1,80 @@
+{
+  "groups": [
+    {
+      "name": "aggregator.kafka",
+      "type": "ru.yandex.practicum.aggregator.config.AggregatorKafkaProperties",
+      "sourceType": "ru.yandex.practicum.aggregator.config.AggregatorKafkaProperties"
+    },
+    {
+      "name": "aggregator.kafka.consumer",
+      "type": "ru.yandex.practicum.aggregator.config.AggregatorKafkaProperties$Consumer",
+      "sourceType": "ru.yandex.practicum.aggregator.config.AggregatorKafkaProperties",
+      "sourceMethod": "getConsumer()"
+    },
+    {
+      "name": "aggregator.kafka.producer",
+      "type": "ru.yandex.practicum.aggregator.config.AggregatorKafkaProperties$Producer",
+      "sourceType": "ru.yandex.practicum.aggregator.config.AggregatorKafkaProperties",
+      "sourceMethod": "getProducer()"
+    },
+    {
+      "name": "aggregator.kafka.topics",
+      "type": "ru.yandex.practicum.aggregator.config.AggregatorKafkaProperties$Topics",
+      "sourceType": "ru.yandex.practicum.aggregator.config.AggregatorKafkaProperties",
+      "sourceMethod": "getTopics()"
+    }
+  ],
+  "properties": [
+    {
+      "name": "aggregator.kafka.consumer.auto-offset-reset",
+      "type": "java.lang.String",
+      "sourceType": "ru.yandex.practicum.aggregator.config.AggregatorKafkaProperties$Consumer"
+    },
+    {
+      "name": "aggregator.kafka.consumer.bootstrap-servers",
+      "type": "java.lang.String",
+      "sourceType": "ru.yandex.practicum.aggregator.config.AggregatorKafkaProperties$Consumer"
+    },
+    {
+      "name": "aggregator.kafka.consumer.client-id",
+      "type": "java.lang.String",
+      "sourceType": "ru.yandex.practicum.aggregator.config.AggregatorKafkaProperties$Consumer"
+    },
+    {
+      "name": "aggregator.kafka.consumer.enable-auto-commit",
+      "type": "java.lang.Boolean",
+      "sourceType": "ru.yandex.practicum.aggregator.config.AggregatorKafkaProperties$Consumer"
+    },
+    {
+      "name": "aggregator.kafka.consumer.group-id",
+      "type": "java.lang.String",
+      "sourceType": "ru.yandex.practicum.aggregator.config.AggregatorKafkaProperties$Consumer"
+    },
+    {
+      "name": "aggregator.kafka.consumer.max-poll-records",
+      "type": "java.lang.Integer",
+      "sourceType": "ru.yandex.practicum.aggregator.config.AggregatorKafkaProperties$Consumer"
+    },
+    {
+      "name": "aggregator.kafka.producer.bootstrap-servers",
+      "type": "java.lang.String",
+      "sourceType": "ru.yandex.practicum.aggregator.config.AggregatorKafkaProperties$Producer"
+    },
+    {
+      "name": "aggregator.kafka.producer.client-id",
+      "type": "java.lang.String",
+      "sourceType": "ru.yandex.practicum.aggregator.config.AggregatorKafkaProperties$Producer"
+    },
+    {
+      "name": "aggregator.kafka.topics.sensors",
+      "type": "java.lang.String",
+      "sourceType": "ru.yandex.practicum.aggregator.config.AggregatorKafkaProperties$Topics"
+    },
+    {
+      "name": "aggregator.kafka.topics.snapshots",
+      "type": "java.lang.String",
+      "sourceType": "ru.yandex.practicum.aggregator.config.AggregatorKafkaProperties$Topics"
+    }
+  ],
+  "hints": []
+}
