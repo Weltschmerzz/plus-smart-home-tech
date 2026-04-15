@@ -42,3 +42,10 @@ analyzer:
 logging:
   level:
     ru.yandex.practicum.analyzer: INFO
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    preferIpAddress: true
