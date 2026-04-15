@@ -11,11 +11,11 @@ spring:
             - classpath:config/telemetry/{application}
 
 server:
-  port: 8888
+  port: 0
 
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://${EUREKA_HOST:localhost}:${EUREKA_PORT:8761}/eureka/
   instance:
     preferIpAddress: true

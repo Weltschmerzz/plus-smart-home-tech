@@ -1,36 +1,19 @@
-#spring:
-#  application:
-#    name: aggregator
-#  main:
-#    web-application-type: none
-#
-#aggregator:
-#  kafka:
-#    topics:
-#      sensors: telemetry.sensors.v1
-#      snapshots: telemetry.snapshots.v1
-#    consumer:
-#      bootstrap-servers: localhost:9092
-#      group-id: aggregator-group
-#      client-id: aggregator-consumer
-#      auto-offset-reset: earliest
-#      enable-auto-commit: false
-#      max-poll-records: 10
-#    producer:
-#      bootstrap-servers: localhost:9092
-#      client-id: aggregator-producer
-#
-#logging:
-#  level:
-#    ru.yandex.practicum.aggregator: INFO
 spring:
   application:
     name: aggregator
   config:
-    import: configserver:http://localhost:8888
+    import: "configserver:"
   cloud:
     config:
+      discovery:
+        enabled: true
+        serviceId: config-server
       fail-fast: true
       retry:
         useRandomPolicy: true
         max-interval: 6000
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://${EUREKA_HOST:localhost}:${EUREKA_PORT:8761}/eureka/

@@ -1,31 +1,15 @@
 spring:
   application:
     name: collector
-  main:
-    web-application-type: none
-  kafka:
-    bootstrap-servers: localhost:9092
-    producer:
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.apache.kafka.common.serialization.ByteArraySerializer
-
-grpc:
-  server:
-    port: 59091
-
-collector:
-  kafka:
-    topics:
-      sensors: telemetry.sensors.v1
-      hubs: telemetry.hubs.v1
-
-logging:
-  level:
-    ru.yandex.practicum.collector: INFO
+  config:
+    import: "configserver:"
+  cloud:
+    config:
+      discovery:
+        enabled: true
+        serviceId: config-server
 
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
-  instance:
-    preferIpAddress: true
+      defaultZone: http://${EUREKA_HOST:localhost}:${EUREKA_PORT:8761}/eureka/
