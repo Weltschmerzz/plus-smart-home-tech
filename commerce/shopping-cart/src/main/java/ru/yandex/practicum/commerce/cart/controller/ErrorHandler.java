@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import ru.yandex.practicum.commerce.cart.exception.ProductNotFoundInShoppingCartException;
 import ru.yandex.practicum.commerce.cart.exception.ProductQuantityNotEnoughInWarehouseException;
+import ru.yandex.practicum.commerce.cart.exception.WarehouseServiceUnavailableException;
 
 import java.util.Map;
 
@@ -30,6 +31,17 @@ public class ErrorHandler {
     ) {
         return Map.of(
                 "error", "PRODUCT_QUANTITY_NOT_ENOUGH_IN_WAREHOUSE",
+                "message", e.getMessage()
+        );
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.SERVICE_UNAVAILABLE)
+    public Map<String, String> handleWarehouseUnavailable(
+            WarehouseServiceUnavailableException e
+    ) {
+        return Map.of(
+                "error", "WAREHOUSE_SERVICE_UNAVAILABLE",
                 "message", e.getMessage()
         );
     }
