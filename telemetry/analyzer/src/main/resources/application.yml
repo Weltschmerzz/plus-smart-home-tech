@@ -16,6 +16,11 @@ spring:
     password: analyzer
     driver-class-name: org.postgresql.Driver
 
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+
 analyzer:
   kafka:
     topics:
