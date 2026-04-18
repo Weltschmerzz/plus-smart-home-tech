@@ -2,12 +2,21 @@ spring:
   application:
     name: collector
   config:
-    import: "configserver:"
+    import: "optional:configserver:"
   cloud:
     config:
+      fail-fast: false
       discovery:
         enabled: true
         serviceId: config-server
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+
+collector:
+  kafka:
+    topics:
+      sensors: ${COLLECTOR_KAFKA_TOPIC_SENSORS:telemetry.sensors.v1}
+      hubs: ${COLLECTOR_KAFKA_TOPIC_HUBS:telemetry.hubs.v1}
 
 eureka:
   client:

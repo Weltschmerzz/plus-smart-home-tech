@@ -2,12 +2,31 @@ spring:
   application:
     name: analyzer
   config:
-    import: "configserver:"
+    import: "optional:configserver:"
   cloud:
     config:
+      fail-fast: false
       discovery:
         enabled: true
         serviceId: config-server
+
+  datasource:
+    url: jdbc:postgresql://localhost:5433/analyzer
+    username: analyzer
+    password: analyzer
+    driver-class-name: org.postgresql.Driver
+
+analyzer:
+  kafka:
+    topics:
+      hubs: ${ANALYZER_KAFKA_TOPIC_HUBS:telemetry.hubs.v1}
+      snapshots: ${ANALYZER_KAFKA_TOPIC_SNAPSHOTS:telemetry.snapshots.v1}
+    consumer:
+      bootstrapServers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+      snapshotGroupId: ${ANALYZER_KAFKA_SNAPSHOT_GROUP_ID:analyzer-snapshots}
+      hubGroupId: ${ANALYZER_KAFKA_HUB_GROUP_ID:analyzer-hubs}
+      autoOffsetReset: earliest
+      maxPollRecords: 10
 
 eureka:
   client:
