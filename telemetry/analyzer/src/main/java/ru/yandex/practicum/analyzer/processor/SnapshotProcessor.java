@@ -52,7 +52,12 @@ public class SnapshotProcessor {
                         continue;
                     }
 
-                    snapshotService.handle(snapshot);
+                    try {
+                        snapshotService.handle(snapshot);
+                    } catch (Exception e) {
+                        log.error("Ошибка при обработке снапшота: key={}, topic={}",
+                                record.key(), record.topic(), e);
+                    }
                 }
 
                 if (!records.isEmpty()) {
