@@ -53,7 +53,12 @@ public class HubEventProcessor implements Runnable {
                         continue;
                     }
 
-                    hubEventService.handle(event);
+                    try {
+                        hubEventService.handle(event);
+                    } catch (Exception e) {
+                        log.error("Ошибка при обработке события хаба: key={}, topic={}",
+                                record.key(), record.topic(), e);
+                    }
                 }
 
                 if (!records.isEmpty()) {

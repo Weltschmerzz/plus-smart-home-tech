@@ -1,44 +1,47 @@
 spring:
   application:
     name: analyzer
-  main:
-    web-application-type: none
+  config:
+    import: "optional:configserver:"
+  cloud:
+    config:
+      fail-fast: false
+      discovery:
+        enabled: true
+        serviceId: config-server
+
   datasource:
     url: jdbc:postgresql://localhost:5433/analyzer
     username: analyzer
     password: analyzer
     driver-class-name: org.postgresql.Driver
+
   jpa:
     hibernate:
-      ddl-auto: none
-    properties:
-      hibernate:
-        format_sql: true
-    show-sql: false
-  sql:
-    init:
-      mode: always
-
-grpc:
-  client:
-    hub-router:
-      address: 'static://localhost:59090'
-      enableKeepAlive: true
-      keepAliveWithoutCalls: true
-      negotiationType: plaintext
+      ddl-auto: update
+    open-in-view: false
 
 analyzer:
   kafka:
     topics:
-      hubs: telemetry.hubs.v1
-      snapshots: telemetry.snapshots.v1
+      hubs: ${ANALYZER_KAFKA_TOPIC_HUBS:telemetry.hubs.v1}
+      snapshots: ${ANALYZER_KAFKA_TOPIC_SNAPSHOTS:telemetry.snapshots.v1}
     consumer:
-      bootstrap-servers: localhost:9092
-      snapshot-group-id: analyzer-snapshot-group
-      hub-group-id: analyzer-hub-group
-      auto-offset-reset: earliest
-      max-poll-records: 10
+      bootstrapServers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+      snapshotGroupId: ${ANALYZER_KAFKA_SNAPSHOT_GROUP_ID:analyzer-snapshots}
+      hubGroupId: ${ANALYZER_KAFKA_HUB_GROUP_ID:analyzer-hubs}
+      autoOffsetReset: earliest
+      maxPollRecords: 10
 
-logging:
-  level:
-    ru.yandex.practicum.analyzer: INFO
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://${EUREKA_HOST:localhost}:${EUREKA_PORT:8761}/eureka/
+
+grpc:
+  client:
+    hub-router:
+      address: static://localhost:59090
+      negotiationType: plaintext
+      enableKeepAlive: true
+      keepAliveWithoutCalls: true
